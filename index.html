@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Không cho Google index trang (có lịch cá nhân) -->
+<meta name="robots" content="noindex, nofollow">
+<title>Winston Brief — Chưa có bản tin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== Tokens màu — light mặc định, dark theo hệ thống ===== */
+  :root {
+    --bg: #f6f5f2; --surface: #ffffff; --text: #18181b; --muted: #6b6b73;
+    --line: #e7e5e0; --accent: #ff5a1f; --accent-soft: #fff0e9; --chip: #f1efea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f0f11; --surface: #18181b; --text: #f4f4f5; --muted: #a1a1aa;
+      --line: #27272a; --accent: #ff7a45; --accent-soft: #2a1a12; --chip: #232327;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.55 Inter, system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  /* ===== Header ===== */
+  header { margin-bottom: 16px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: 26px; line-height: 1.2; margin: 4px 0 2px; font-weight: 700; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: 13px; }
+
+  /* ===== Tabs CSS thuần: radio ẩn + label làm nút, không cần JS ===== */
+  .tabs > input { position: absolute; opacity: 0; pointer-events: none; }
+  .tabbar {
+    position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 4px; padding: 4px; margin: 0 -4px 16px; background: var(--chip); border-radius: 14px;
+  }
+  .tabbar label {
+    text-align: center; padding: 10px 6px; border-radius: 10px; cursor: pointer;
+    font-weight: 600; font-size: 14px; color: var(--muted); user-select: none; white-space: nowrap;
+  }
+  .panel { display: none; }
+  /* Tab nào được chọn thì sáng label + hiện panel tương ứng */
+  #t1:checked ~ .tabbar label[for="t1"],
+  #t2:checked ~ .tabbar label[for="t2"],
+  #t3:checked ~ .tabbar label[for="t3"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  #t1:checked ~ #p1, #t2:checked ~ #p2, #t3:checked ~ #p3 { display: block; }
+  #t1:focus-visible ~ .tabbar label[for="t1"],
+  #t2:focus-visible ~ .tabbar label[for="t2"],
+  #t3:focus-visible ~ .tabbar label[for="t3"] { outline: 2px solid var(--accent); }
+
+  /* ===== Nội dung (class routine được phép dùng) ===== */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+  .card h2 { font-size: 15px; margin: 0 0 10px; font-weight: 700; }
+  .events { list-style: none; margin: 0; padding: 0; }
+  .events li { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .events li:first-child { border-top: 0; padding-top: 0; }
+  .time { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 13px; color: var(--accent); }
+  .items { list-style: none; margin: 0; padding: 0; }
+  .items li { padding: 10px 0; border-top: 1px solid var(--line); }
+  .items li:first-child { border-top: 0; padding-top: 0; }
+  .items a { color: var(--text); font-weight: 600; text-decoration: none; }
+  .items a:hover { color: var(--accent); }
+  .why { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+  .meta { display: inline-block; font-size: 11.5px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 6px; padding: 1px 6px; margin-left: 4px; vertical-align: 1px; }
+  .star { color: var(--accent); }
+  .highlight { background: var(--accent-soft); border-color: transparent; }
+  .highlight p { margin: 0; }
+  .empty, .note { color: var(--muted); font-size: 13px; margin: 0; }
+  .note { margin-top: 16px; text-align: center; }
+  footer { margin-top: 24px; text-align: center; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Winston Brief</div>
+    <h1>Chưa có bản tin</h1>
+    <div class="sub">Cập nhật — (giờ Bangkok)</div>
+  </header>
+
+  <div class="tabs">
+    <input type="radio" name="tab" id="t1" checked>
+    <input type="radio" name="tab" id="t2">
+    <input type="radio" name="tab" id="t3">
+    <nav class="tabbar">
+      <label for="t1">📅 Hôm nay</label>
+      <label for="t2">🎨 Design</label>
+      <label for="t3">🗣️ Xã hội</label>
+    </nav>
+    <section class="panel" id="p1"><div class="card"><p class="empty">Chưa có bản tin — bản đầu tiên sẽ có vào sáng mai.</p></div></section>
+    <section class="panel" id="p2"><div class="card"><p class="empty">Chưa có bản tin — bản đầu tiên sẽ có vào sáng mai.</p></div></section>
+    <section class="panel" id="p3"><div class="card"><p class="empty">Chưa có bản tin — bản đầu tiên sẽ có vào sáng mai.</p></div></section>
+  </div>
+
+  <footer>Tự động tạo mỗi sáng · Claude routine</footer>
+</div>
+</body>
+</html>
